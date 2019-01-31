@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-12">
+        <fieldset>
+            <legend>Details</legend>
+
+            <h2 id="title"></h2>
+            <hr>
+            <p id="author"> </p>
+            <hr>
+            <p id="description"> </p>
+            <hr>
+            <p id="isbn"> </p>
+        </fieldset>
+    </div>
+</div>
+
+<script>
+    Client = new HttpClient();
+    let book_id = document.getElementById("book_id").value;
+    Client.getBooks("http://localhost:3000/books/"+book_id)
+    .then(res => {
+        document.getElementById("title").innerText = "Title : "+res.title;
+        document.getElementById("author").innerText = "Auteur : "+res.author;
+        document.getElementById("description").innerText = "Description : "+res.description;
+        document.getElementById("isbn").innerText = "ISBN : "+res.ISBN;
+
+    })
+    .then(err => console.log(err));
+
+
+</script>

@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "saifeddine",
+      "login": "abid.saif@ymail.com",
+      "password": "password"
+    },
+    {
+      "id": 2,
+      "name": "another user",
+      "login": "x.z@y.com",
+      "password": "password"
+    }
+  ],
+  "quotes": [
+    {
+      "id": 1,
+      "content": "some quote told by Bill Gates",
+      "celebrityId": 1,
+      "categoryId": 1
+    },
+    {
+      "id": 2,
+      "content": "quote two",
+      "celebrityId": 1,
+      "categoryId": 1
+    },
+    {
+      "id": 3,
+      "content": "third quote",
+      "celebrityId": 2,
+      "categoryId": 2
+    }
+  ],
+  "celebrities": [
+    {
+      "id": 1,
+      "name": "densil wash"
+    },
+    {
+      "id": 2,
+      "name": "Celebrity two"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "label": "category one"
+    },
+    {
+      "id": 2,
+      "label": "category two"
+    }
+  ],
+  "user_favorites": []
+}

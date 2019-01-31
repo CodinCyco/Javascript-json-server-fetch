@@ -1,0 +1,177 @@
+
+<div class="row" style="margin: 30px;">
+    <div class="col-md-12">
+        <h3 id="response">Quote of the day</h3>
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100"  src="images/background.png" alt="First slide">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 id="slideText"></h1>
+                        <h2 class="alert alert-danger" id="category" onclick="goToCategory()"></h2>
+                        <br>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 30px;">
+        <div class="col-md-12">
+            <h2>All categories</h2>
+            <div id="cats">
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    /**
+     *
+     * ready function
+     *
+     **/
+    fetch("http://localhost:3000/quotes")
+    .then(res => res.json())
+    .then(data => {
+        let elementIndex = Math.floor(Math.random() * Math.floor(data.length));
+        document.getElementById('slideText').innerHTML = data[elementIndex].content;
+
+            fetch("http://localhost:3000/categories/"+data[elementIndex].categoryId)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('category').innerHTML = data.label;
+                    document.getElementById('categoryId').value = data.id;
+                })
+    });
+
+    /**
+     *
+     * All categories
+     *
+     */
+     fetch("http://localhost:3000/categories")
+         .then(res => res.json())
+         .then(data => {
+             let output = '';
+             data.forEach(function (element) {
+                 output += `
+                            <div class="card" style="width: 18rem;">
+                          <div class="card-body">
+                            <h5 class="card-title">${element.label}</h5>
+                            <a href="#" class="btn btn-primary" onclick="goToCategory(${element.id})">Check quotes</a>
+                          </div>
+                        </div>
+                            `;
+
+             });
+             document.getElementById('cats').innerHTML = output;
+         });
+
+    /**
+     *
+     * go to category
+     *
+     */
+    function goToCategory(catId){
+        if(catId!=null){
+            document.getElementById('categoryId').value = catId;
+        }
+        fetch('category.html')
+            .then(function(response) {
+                return response.text()
+            })
+            .then(function(html) {
+                var parser = new DOMParser();
+
+                var doc = parser.parseFromString(html, "text/html");
+
+               document.getElementById("container").innerHTML = html;
+               categoryScript();
+            })
+            .catch(function(err) {
+                console.log('Failed to fetch page: ', err);
+            });
+    }
+
+
+    /**
+     * category script
+     */
+    function categoryScript(){
+        let catName = null;
+        let catId = document.getElementById('categoryId').value;
+        fetch("http://localhost:3000/categories?id="+catId)
+            .then(res => res.json())
+            .then(data => {
+                catName = data[0].label;
+                document.getElementById('categoryName').innerHTML = catName;
+
+            });
+
+        fetch("http://localhost:3000/categories/"+catId+"/quotes/")
+            .then(res => res.json())
+            .then(data => {
+                let output  =  '';
+                data.forEach(function (element) {
+                        output +=
+                            `<li class="list-group-item">${element.content}<br>
+                                <button class="btn btn-success"
+                                        onclick="addToFavorite(${element.id})">
+                                        Add to favorites
+                                </button>
+                            </li>`
+                });
+                document.getElementById('quotes').innerHTML = output;
+            })
+    }
+
+function addToFavorite(quoteId) {
+
+        var exists = false;
+        const body = {"userId":1,"quoteId":quoteId};
+        fetch("http://localhost:3000/users/1/user_favorites")
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(function (e) {
+                    if(e.quoteId === quoteId)
+                    {
+                        exists = true;
+                        return;
+                    }
+
+                })
+                if(exists)
+                {
+
+                    document.getElementById("message").classList.add("alert-danger");
+                    document.getElementById("message").innerHTML = "Already in favorites";
+                    document.getElementById("message").style.display = "block";
+                }
+                else
+                {
+                    fetch("http://localhost:3000/users/1/user_favorites",{
+                        method : "post",
+                        headers : {"content-type" : "application/json"},
+                        body : JSON.stringify(body)
+
+                    }).then(res => {
+                        document.getElementById("message").classList.add("alert-success");
+                        document.getElementById("message").innerHTML = "Successfully added";
+                        document.getElementById("message").style.display = "block";
+                    })
+                }
+
+                setTimeout(function () {
+                    document.getElementById("message").style.display = "none";
+                },2000)
+            })
+
+}
+
+
+
+
+</script>

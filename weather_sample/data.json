@@ -1,0 +1,21 @@
+[
+   {
+     "id" : 1,
+     "name":"Tunis",
+     "weather_value" : 18,
+     "weather_description" : "cloudy"
+   },
+   {
+     "id" : 2,
+     "name":"Bizerte",
+     "weather_value" : 14,
+     "weather_description" : "rain"
+   },
+   {
+     "id" : 3,
+     "name":"Sousse",
+     "weather_value" : 23,
+     "weather_description" : "normal"
+   }
+
+]

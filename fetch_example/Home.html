@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+            + add new book
+        </button>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody id="books">
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add a new book</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add_form">
+                    <div class="form-group row">
+                        <label for="title_input" class="col-sm-2 col-form-label">Title</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="title_input" placeholder="Title">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="author_input" class="col-sm-2 col-form-label">Author</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="author_input" placeholder="Author">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="desc" class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="desc" placeholder="Description">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="isbn_input" class="col-sm-2 col-form-label">ISBN</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="isbn_input" placeholder="ISBN">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="add()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="HttpClient.js"></script>
+<script>
+    Client = new HttpClient();
+
+    ready();
+
+    function ready() {
+        document.getElementById('books').innerHTML = "";
+       Client.getBooks("http://localhost:3000/books")
+           .then(res => {
+               res.forEach(function (element) {
+                   document.getElementById('books').innerHTML += `<tr>
+                <th scope="row">${element.id}</th>
+                <td>${element.title}</td>
+                <td><button class="btn btn-info" onclick="bookDetails(${element.id})">Details</button></td>
+            </tr>`
+               })
+           })
+           .catch(err => console.log(err));
+
+
+    }
+    function bookDetails(id) {
+        router("details");
+        document.getElementById("book_id").value = id;
+    }
+
+    function add() {
+        let title = document.getElementById("title_input").value;
+        let author = document.getElementById("author_input").value;
+        let description = document.getElementById("desc").value;
+        let isbn = document.getElementById("isbn_input").value;
+        let data =  {
+
+            "title": title,
+            "author": author,
+            "description": description,
+            "ISBN": isbn
+        }
+
+        Client.addBook("http://localhost:3000/books",data)
+            .then(res=> {
+                ready();
+                document.getElementById("title_input").value = "";
+                document.getElementById("author_input").value = "";
+                document.getElementById("desc").value = "";
+                document.getElementById("isbn_input").value = "";
+                $('#exampleModal').modal('hide');
+            })
+            .catch(err => console.log(err))
+    }
+</script>

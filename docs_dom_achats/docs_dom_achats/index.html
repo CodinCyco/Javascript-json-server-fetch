@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/bootstrap.css">
+
+  <title>DOM Manipulations</title>
+</head>
+<body>
+  <div class="container-fluid" style="margin-top:10px">
+      <div class="form-group">
+        <label for="produtInput" id="label-product">Produit</label>
+        <input type="text" class="form-control" id="produtInput" placeholder="Produit">
+      </div>
+      <div class="form-group">
+        <label for="quantityInput">Quantité</label>
+        <input type="text" class="form-control" id="quantityInput" placeholder="Quantité">
+      </div>
+      <button  class="btn btn-success" style="margin-top:5px; margin-bottom:10px;" id="add">Ajouter</button>
+  </div>
+
+    <div class="container-fluid">
+
+      <div class="card">
+      <div class="card-header">
+        Liste des Achats
+      </div>
+      <ul class="list-group list-group-flush" id="list">
+        <li class="list-group-item"><p>Pomme de terre</p>
+          <span class="badge badge-secondary">2Kg</span>
+          <button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </li>
+        <li class="list-group-item"><p>Fromage</p>
+          <span class="badge badge-secondary">200g</span>
+          <button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </li>
+        <li class="list-group-item"><p>Tomate</p>
+          <span class="badge badge-secondary">1Kg</span>
+          <button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+    <button type="button" class="btn btn-warning" style="margin-top:5px; margin-bottom:10px;" id="deleteAll">Tout effacer</button>
+    </div>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

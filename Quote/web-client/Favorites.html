@@ -1,0 +1,42 @@
+<h1>Your favorite Quotes</h1>
+
+<ul class="list-group" id="favoriteQuotes">
+
+</ul>
+
+
+<script>
+    /**
+     * ready function
+     */
+
+   ready();
+
+    function remove(id) {
+        fetch("http://localhost:3000/user_favorites/"+id,{
+            method:"delete"
+        })
+            .then(res => res.json())
+            .then(data => {
+                ready();
+            })
+    }
+
+    function ready() {
+        document.getElementById('favoriteQuotes').innerHTML = '';
+        fetch("http://localhost:3000/users/1/user_favorites")
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(function (e) {
+
+                    fetch("http://localhost:3000/quotes/"+e.quoteId)
+                        .then(res => res.json())
+                        .then(data => {
+                                document.getElementById('favoriteQuotes').innerHTML += `<li class="list-group-item">${data.content}<button onclick="remove(${e.id})" style="margin-left: 20px" class="btn btn-danger">X</button></li>`;
+                            }
+                        );
+
+                })
+            })
+    }
+</script>

@@ -1,0 +1,25 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode",
+      "description": "some description",
+      "ISBN": 784597885564454500
+    },
+    {
+      "id": 2,
+      "title": "book 2",
+      "author": "typicode",
+      "description": "some description",
+      "ISBN": 784597885564454500
+    },
+    {
+      "title": "book 2",
+      "author": "typicode",
+      "description": "some description",
+      "ISBN": 784597885564454500,
+      "id": 3
+    }
+  ]
+}
